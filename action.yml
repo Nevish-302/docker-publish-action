@@ -52,6 +52,10 @@ inputs:
 runs:
   using: composite
   steps:
+    - name: clear env
+      run: echo "X=Y" > $GITHUB_ENV
+      shell: bash
+    
     - run: echo "received image-name is ${{ inputs.image-name }}"
       shell: bash
 
