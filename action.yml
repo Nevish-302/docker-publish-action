@@ -52,6 +52,9 @@ inputs:
 runs:
   using: composite
   steps:
+    - run: echo "received image-name is ${{ inputs.image-name }}"
+      shell: bash
+
     - name: check and store params
       run: python3 $GITHUB_ACTION_PATH/check_inputs.py
       shell: bash
@@ -71,6 +74,9 @@ runs:
         DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
         DOCKER_BUILDX_VERSION: 0.5.1
 
+    - run: echo "env image-name is $IMAGE_NAME"
+      shell: bash
+
     - name: find tag
       run: python3 $GITHUB_ACTION_PATH/find_tag.py
       shell: bash
@@ -79,20 +85,24 @@ runs:
       run: python3 $GITHUB_ACTION_PATH/display_tag.py
       shell: bash
 
-    - name: docker install
-      run: python3 $GITHUB_ACTION_PATH/docker_install.py
+    - name: debug env
+      run: cat $GITHUB_ENV
       shell: bash
 
-    - name: docker login
-      run: python3 $GITHUB_ACTION_PATH/docker_login.py
-      shell: bash
-      env:
-        CREDENTIALS: ${{ inputs.credentials }}
+    # - name: docker install
+    #   run: python3 $GITHUB_ACTION_PATH/docker_install.py
+    #   shell: bash
 
-    - name: docker build-push
-      run: python3 $GITHUB_ACTION_PATH/docker_build.py
-      shell: bash
+    # - name: docker login
+    #   run: python3 $GITHUB_ACTION_PATH/docker_login.py
+    #   shell: bash
+    #   env:
+    #     CREDENTIALS: ${{ inputs.credentials }}
 
-    - name: docker logout
-      run: python3 $GITHUB_ACTION_PATH/docker_logout.py
-      shell: bash
+    # - name: docker build-push
+    #   run: python3 $GITHUB_ACTION_PATH/docker_build.py
+    #   shell: bash
+
+    # - name: docker logout
+    #   run: python3 $GITHUB_ACTION_PATH/docker_logout.py
+    #   shell: bash
